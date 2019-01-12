@@ -4,6 +4,10 @@
     <title>Laravel</title>
 </head>
 <body>
+
+@if (session('message'))
+    <p>{{session('message')}}</p>
+@endif
 <h1>Request A Movie</h1>
 {!! Form::open(['action' => 'ToMovieController@getFromMovieDb', 'method' => 'GET']) !!}
 {{ Form::bsText('title') }}

@@ -93,14 +93,8 @@ class ToMovieController extends Controller
                 $movie->save();
             }
 
+            flash('Owned Movies modified!');
 
-//            if($displaySuccessMessage){
-//                $this->addFlash(
-//                    'success',
-//                    'Owned Movies modified!'
-//                );
-//            }
-//
             return redirect('/');
         } catch (\Exception $e){
 
