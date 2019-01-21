@@ -5,9 +5,11 @@ use App\movie;
 
 class ToMovieService
 {
+    private $gClient;
     private $api_key;
 
-    public function __construct($api_key){
+    public function __construct(GuzzleClient $gClient, $api_key){
+        $this->gClient = $gClient;
         $this->api_key = $api_key;
     }
 
@@ -16,8 +18,8 @@ class ToMovieService
 
         $movieApiUrl = 'https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&language=en-US&api_key='.$this->api_key.'&query=\''.$title.'\'';
 
-        $client       = new GuzzleClient();
-        $res          = $client->request('GET', $movieApiUrl);
+//        $client       = new GuzzleClient();
+        $res          = $this->gClient->request('GET', $movieApiUrl);
         $jsonResponse = $res->getBody();
         $response    = json_decode($jsonResponse);
 

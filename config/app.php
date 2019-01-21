@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\FormServiceProvider::class,
         App\Providers\ToMovieServiceProvider::class,
+        App\Providers\GuzzleProvider::class,
 
     ],
 
