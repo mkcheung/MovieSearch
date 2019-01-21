@@ -1,14 +1,16 @@
 <?php
 namespace App\Services;
 use GuzzleHttp\Client as GuzzleClient;
-use App\movie;
+use App\Movie;
 
 class ToMovieService
 {
     private $gClient;
     private $api_key;
+    private $movie;
 
-    public function __construct(GuzzleClient $gClient, $api_key){
+    public function __construct(Movie $movie, GuzzleClient $gClient, $api_key){
+        $this->movie = $movie;
         $this->gClient = $gClient;
         $this->api_key = $api_key;
     }
@@ -18,7 +20,6 @@ class ToMovieService
 
         $movieApiUrl = 'https://api.themoviedb.org/3/search/movie?include_adult=false&page=1&language=en-US&api_key='.$this->api_key.'&query=\''.$title.'\'';
 
-//        $client       = new GuzzleClient();
         $res          = $this->gClient->request('GET', $movieApiUrl);
         $jsonResponse = $res->getBody();
         $response    = json_decode($jsonResponse);
@@ -29,7 +30,7 @@ class ToMovieService
     public function getAllOwnedMovieTitles($unique=false){
 
         $movieTitles = [];
-        $movies = movie::all();
+        $movies = $this->movie->all();
         if($unique) {
             foreach ($movies as $movie) {
                 array_push($movieTitles,$movie->getUniqueTitle());

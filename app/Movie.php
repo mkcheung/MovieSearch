@@ -4,8 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class movie extends Model
+class Movie extends Model
 {
+    protected $fillable = [
+        'title',
+        'user_id',
+        'uniqueTitle'
+    ];
 
     /**
      * @return string

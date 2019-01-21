@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Services\ToMovieService;
+use App\Movie;
 use GuzzleHttp\Client as GuzzleClient;
 
 class ToMovieServiceProvider extends ServiceProvider
@@ -27,7 +28,8 @@ class ToMovieServiceProvider extends ServiceProvider
     {
         $this->app->singleton(ToMovieService::class, function(){
             $gClient = new GuzzleClient();
-            return new ToMovieService($gClient, config('services.tomovies.key'));
+            $movie = new Movie();
+            return new ToMovieService($movie, $gClient, config('services.tomovies.key'));
         });
     }
 }

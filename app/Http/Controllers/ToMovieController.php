@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\movie;
+use App\Movie;
 use App\Services\ToMovieService;
 use GuzzleHttp\Client as GuzzleClient;
 
@@ -55,16 +55,16 @@ class ToMovieController extends Controller
             if(!empty($movieTitlesToOwn) || !empty($movieNotOwned)){
                 $displaySuccessMessage = true;
             }
-            $movieNotOwnedResults = movie::whereIn('uniqueTitle',  $movieNotOwned)->get();
+            $movieNotOwnedResults = Movie::whereIn('uniqueTitle',  $movieNotOwned)->get();
 
             foreach ($movieNotOwnedResults as $movieNotOwnedResult){
-                $movieToDelete = movie::where('movie_id',7);
+                $movieToDelete = Movie::where('movie_id',7);
                 if($movieToDelete){
                     $movieToDelete->delete();
                 }
             }
 
-            $movieTitleResults = movie::whereIn('uniqueTitle',  $movieTitlesToOwn)->get();
+            $movieTitleResults = Movie::whereIn('uniqueTitle',  $movieTitlesToOwn)->get();
             foreach ($movieTitleResults as $movieTitleResult) {
 
                 $uniqueTitle = $movieTitleResult->getUniqueTitle();
@@ -78,7 +78,7 @@ class ToMovieController extends Controller
             $titlesToSave = [];
             $date = new \DateTime();
             foreach ($movieTitlesToOwn as $movieTitleToOwn){
-                $movie = new movie();
+                $movie = new Movie();
                 $movieTitleAndReleaseDate = explode('_', $movieTitleToOwn);
                 $titlesToSave[] = [
                     'title' => $movieTitleAndReleaseDate[0],
