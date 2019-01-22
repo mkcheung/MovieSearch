@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Movie;
 use App\Services\ToMovieService;
 use GuzzleHttp\Client as GuzzleClient;
+use function var_dump;
 
 class ToMovieController extends Controller
 {
@@ -18,7 +19,6 @@ class ToMovieController extends Controller
     public function index(ToMovieService $toMovieService)
     {
         $movieTitles = $toMovieService->getAllOwnedMovieTitles();
-
         return view('tomovies.index')->with('movieTitles',$movieTitles);
     }
 

@@ -12,33 +12,30 @@ use Mockery;
 
 class ToMovieControllerTest extends TestCase
 {
+
+    protected $toMovieService;
+    protected $toMovieController;
+    public function setUp()
+    {
+        parent::setUp();
+        $this->toMovieService = Mockery::mock(ToMovieService::class);
+        $this->toMovieController = new ToMovieController();
+
+    }
     /** @test **/
     public function test_index()
     {
+        $movieTitles = [
+            'Star Trek Into Darkness',
+            'Star Trek II: The Wrath of Khan',
+            'Star Trek 25th Anniversary Special'
+        ];
 
+        $this->toMovieService
+            ->shouldReceive('getAllOwnedMovieTitles')
+            ->andReturn($movieTitles);
 
-        $toMovieServiceMock = Mockery::mock(ToMovieService::class);
-        ;
-
-        $toMovieServiceMock->shouldReceive('getAllOwnedMovieTitles')
-        ->once()
-        ->andReturn([
-            'movieTitle1',
-            'movieTitle2'
-        ]);
-        $this->call('GET', '/');
-
-        $this->assertResponseOk();
-//        $this->app->instance('CookBook\Recipes\RecipeRepository', $toMovieServiceMock);
-//        $mock->shouldReceive('getAllPaginated')->once();
-
-//        $toMovieController = new ToMovieController();
-//        $response = $toMovieController->index($toMovieServiceMock);
-//        $response->assertViewIs('tomovies.index');
-//        $response = $controller->store($request);
-//        $response->assertViewHas('unit');
-
-//        $this->action('GET', 'ToMovieController@index');
-//        $this->assertTrue(true);
+        $response = $this->call('GET', '/', [$this->toMovieService]);
+        $response->assertViewHas('movieTitles',$movieTitles);
     }
 }
